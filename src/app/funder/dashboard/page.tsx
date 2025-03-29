@@ -5,14 +5,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function FunderDashboard() {
-  const [isConnecting, setIsConnecting] = useState(false);
+  // const [isConnecting, setIsConnecting] = useState(false);
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
   const router = useRouter();
   
   // Mock data for funded projects
-  const [fundedProjects, setFundedProjects] = useState([
+  const [fundedProjects] = useState([
     {
       id: 1,
       title: "Climate Change Mitigation Strategies",
@@ -46,7 +46,7 @@ export default function FunderDashboard() {
   ]);
 
   // Mock data for funding stats
-  const [fundingStats, setFundingStats] = useState({
+  const [fundingStats] = useState({
     totalFunded: 240000,
     projectsFunded: 5,
     activeProjects: 3,
