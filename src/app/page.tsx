@@ -169,7 +169,7 @@ export default function Home() {
                     <span className="bg-green-100 p-2 rounded-full mr-4">🎯</span>
                     <div>
                       <h4 className="font-bold">Targeted Discovery</h4>
-                      <p className="text-gray-600">Find research projects that precisely match your organization's funding priorities</p>
+                      <p className="text-gray-600">Find research projects that precisely match your organization&apos;s funding priorities</p>
                     </div>
                   </li>
                   <li className="flex items-start">
