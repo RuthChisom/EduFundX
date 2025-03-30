@@ -75,7 +75,9 @@ export default function Home() {
         {/* How It Works Section */}
         <section id="how-it-works" className="bg-gray-50 py-16">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">How EDUFUNDX Works</h2>
+            <h2 className="text-3xl font-bold text-center text-gray-600 mb-12">
+              How EDUFUNDX Works
+            </h2>
 
             <div className="grid md:grid-cols-3 gap-8">
               {/* For Researchers */}
@@ -86,7 +88,7 @@ export default function Home() {
                     <span className="bg-blue-100 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
                       1
                     </span>
-                    <span>
+                    <span className="text-gray-500">
                       Create a profile showcasing your research background and current projects
                     </span>
                   </li>
@@ -94,7 +96,7 @@ export default function Home() {
                     <span className="bg-blue-100 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
                       2
                     </span>
-                    <span>
+                    <span className="text-gray-500">
                       Submit detailed proposals for funding with clear objectives and impact
                     </span>
                   </li>
@@ -102,7 +104,9 @@ export default function Home() {
                     <span className="bg-blue-100 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
                       3
                     </span>
-                    <span>Connect directly with interested funders and discuss collaboration</span>
+                    <span className="text-gray-500">
+                      Connect directly with interested funders and discuss collaboration
+                    </span>
                   </li>
                 </ol>
               </div>
@@ -113,21 +117,27 @@ export default function Home() {
                 <ul className="space-y-4">
                   <li className="flex items-start">
                     <span className="text-purple-700 mr-3">✓</span>
-                    <span>
+                    <span className="text-gray-500">
                       Smart matching algorithm to connect compatible researchers and funders
                     </span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-purple-700 mr-3">✓</span>
-                    <span>Secure messaging and document sharing system</span>
+                    <span className="text-gray-500">
+                      Secure messaging and document sharing system
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-purple-700 mr-3">✓</span>
-                    <span>Progress tracking and milestone reporting tools</span>
+                    <span className="text-gray-500">
+                      Progress tracking and milestone reporting tools
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-purple-700 mr-3">✓</span>
-                    <span>Verification and vetting process for all platform members</span>
+                    <span className="text-gray-500">
+                      Verification and vetting process for all platform members
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -140,7 +150,7 @@ export default function Home() {
                     <span className="bg-green-100 text-green-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
                       1
                     </span>
-                    <span>
+                    <span className="text-gray-500">
                       Create an organization profile with funding interests and requirements
                     </span>
                   </li>
@@ -148,13 +158,17 @@ export default function Home() {
                     <span className="bg-green-100 text-green-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
                       2
                     </span>
-                    <span>Browse curated research projects that match your funding criteria</span>
+                    <span className="text-gray-500">
+                      Browse curated research projects that match your funding criteria
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <span className="bg-green-100 text-green-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
                       3
                     </span>
-                    <span>Initiate contact with researchers and track funded projects</span>
+                    <span className="text-gray-500">
+                      Initiate contact with researchers and track funded projects
+                    </span>
                   </li>
                 </ol>
               </div>
@@ -165,7 +179,9 @@ export default function Home() {
         {/* Benefits Section */}
         <section id="benefits" className="py-16">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">Why Choose EDUFUNDX</h2>
+            <h2 className="text-3xl font-bold text-center text-gray-500 mb-12">
+              Why Choose EDUFUNDX
+            </h2>
 
             <div className="grid md:grid-cols-2 gap-12">
               <div>
@@ -174,7 +190,7 @@ export default function Home() {
                   <li className="flex items-start">
                     <span className="bg-blue-100 p-2 rounded-full mr-4">🔍</span>
                     <div>
-                      <h4 className="font-bold">Increased Visibility</h4>
+                      <h4 className="font-bold text-gray-400">Increased Visibility</h4>
                       <p className="text-gray-600">
                         Showcase your work to a curated network of funders interested in your field
                       </p>
@@ -183,7 +199,7 @@ export default function Home() {
                   <li className="flex items-start">
                     <span className="bg-blue-100 p-2 rounded-full mr-4">⏱️</span>
                     <div>
-                      <h4 className="font-bold">Time Efficiency</h4>
+                      <h4 className="font-bold text-gray-400">Time Efficiency</h4>
                       <p className="text-gray-600">
                         Reduce time spent on grant applications by connecting directly with
                         interested funders
@@ -193,7 +209,7 @@ export default function Home() {
                   <li className="flex items-start">
                     <span className="bg-blue-100 p-2 rounded-full mr-4">🤝</span>
                     <div>
-                      <h4 className="font-bold">Meaningful Partnerships</h4>
+                      <h4 className="font-bold text-gray-400">Meaningful Partnerships</h4>
                       <p className="text-gray-600">
                         Build relationships with funders who understand and value your research area
                       </p>
@@ -208,7 +224,7 @@ export default function Home() {
                   <li className="flex items-start">
                     <span className="bg-green-100 p-2 rounded-full mr-4">🎯</span>
                     <div>
-                      <h4 className="font-bold">Targeted Discovery</h4>
+                      <h4 className="font-bold text-gray-400">Targeted Discovery</h4>
                       <p className="text-gray-600">
                         Find research projects that precisely match your organization&apos;s funding
                         priorities
@@ -218,7 +234,7 @@ export default function Home() {
                   <li className="flex items-start">
                     <span className="bg-green-100 p-2 rounded-full mr-4">📊</span>
                     <div>
-                      <h4 className="font-bold">Impact Tracking</h4>
+                      <h4 className="font-bold text-gray-400">Impact Tracking</h4>
                       <p className="text-gray-600">
                         Monitor the progress and outcomes of funded projects with built-in reporting
                         tools
@@ -228,7 +244,7 @@ export default function Home() {
                   <li className="flex items-start">
                     <span className="bg-green-100 p-2 rounded-full mr-4">🌟</span>
                     <div>
-                      <h4 className="font-bold">Early Access</h4>
+                      <h4 className="font-bold text-gray-400">Early Access</h4>
                       <p className="text-gray-600">
                         Discover groundbreaking research before it reaches mainstream funding
                         channels
