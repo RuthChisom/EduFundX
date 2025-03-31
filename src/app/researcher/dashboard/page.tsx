@@ -219,6 +219,12 @@ export default function ResearcherDashboard() {
     router.push('/auth/researcher-login')
   }
 
+  // Helper function to safely format dates
+  const formatDate = (dateString: string | undefined) => {
+    if (!dateString) return 'N/A'
+    return new Date(dateString).toLocaleDateString()
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -533,8 +539,7 @@ export default function ResearcherDashboard() {
                                 PROJECT TIMELINE
                               </h4>
                               <p className="mt-1 text-sm text-gray-900">
-                                {new Date(project.startDate).toLocaleDateString()} -{' '}
-                                {new Date(project.endDate).toLocaleDateString()}
+                                {formatDate(project.startDate)} - {formatDate(project.endDate)}
                               </p>
                             </div>
                             <div>
@@ -544,7 +549,7 @@ export default function ResearcherDashboard() {
                             <div>
                               <h4 className="text-xs font-medium text-gray-500">DUE DATE</h4>
                               <p className="mt-1 text-sm text-gray-900">
-                                {new Date(project.nextMilestoneDate).toLocaleDateString()}
+                                {formatDate(project.nextMilestoneDate)}
                               </p>
                             </div>
                           </div>
