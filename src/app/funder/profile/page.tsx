@@ -11,23 +11,23 @@ export default function ProfileSetup() {
   useEffect(() => {
     const savedProfile = localStorage.getItem('funderProfile')
     if (savedProfile) {
-        console.log("profile exists;")
+      console.log('profile exists;')
       router.push('/funder/dashboard')
     } else {
-        console.log("profile exists;")
-        setLoading(false)
+      console.log('profile exists;')
+      setLoading(false)
     }
   }, [router])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setProfile({ ...profile, [e.target.name]: e.target.value })
   }
-  
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     localStorage.setItem('funderProfile', JSON.stringify(profile))
     router.push('/funder/dashboard')
-  }  
+  }
 
   if (loading) {
     return (
@@ -48,7 +48,7 @@ export default function ProfileSetup() {
             name="name"
             value={profile.name}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 text-gray-900"
             required
           />
         </div>
@@ -60,7 +60,7 @@ export default function ProfileSetup() {
             name="institution"
             value={profile.institution}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 text-gray-900"
             required
           />
         </div>
@@ -71,7 +71,7 @@ export default function ProfileSetup() {
             name="bio"
             value={profile.bio}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 text-gray-900"
             required
           ></textarea>
         </div>
