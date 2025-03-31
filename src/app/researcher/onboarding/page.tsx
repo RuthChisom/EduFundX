@@ -241,7 +241,7 @@ export default function ResearcherOnboarding() {
                     placeholder="your.name@university.edu"
                   />
                   <p className="mt-1 text-xs text-gray-500">
-                    We'll verify your academic affiliation through this email.
+                    We&apos;ll verify your academic affiliation through this email.
                   </p>
                 </div>
 
