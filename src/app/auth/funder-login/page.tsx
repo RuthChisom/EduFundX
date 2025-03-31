@@ -20,22 +20,27 @@ export default function FunderLogin() {
   const connectWallet = async () => {
     setIsConnecting(true)
     setError('')
-
+  
     try {
       if (!isMetaMaskInstalled()) {
         throw new Error('MetaMask is not installed. Please install MetaMask to continue.')
       }
-
+  
       const { ethereum } = window as any
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
-
+  
       if (accounts.length > 0) {
         setWalletAddress(accounts[0])
-
-        // Simulate API call to authenticate funder
+  
+        // Check if profile exists
+        const savedProfile = localStorage.getItem('funderProfile')
+  
         setTimeout(() => {
-          // Redirect to dashboard after successful connection
-          router.push('/funder/dashboard')
+          if (savedProfile) {
+            router.push('/funder/dashboard') // Profile exists → go to dashboard
+          } else {
+            router.push('/funder/profile') // No profile → go to profile setup
+          }
         }, 1500)
       }
     } catch (err: any) {
@@ -45,6 +50,7 @@ export default function FunderLogin() {
       setIsConnecting(false)
     }
   }
+  
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

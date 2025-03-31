@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-export default function FunderLogin() {
+export default function ResearcherLogin() {
   const [isConnecting, setIsConnecting] = useState(false)
   const [walletAddress, setWalletAddress] = useState('')
   const [error, setError] = useState('')
@@ -32,10 +32,10 @@ export default function FunderLogin() {
       if (accounts.length > 0) {
         setWalletAddress(accounts[0])
 
-        // Simulate API call to authenticate funder
+        // Simulate API call to authenticate researcher
         setTimeout(() => {
           // Redirect to dashboard after successful connection
-          router.push('/funder/dashboard')
+          router.push('/researcher/dashboard')
         }, 1500)
       }
     } catch (err: any) {
@@ -52,7 +52,7 @@ export default function FunderLogin() {
         <Link href="/">
           <h2 className="text-center text-3xl font-extrabold text-green-700">EDUFUNDX</h2>
         </Link>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Funder Sign In</h2>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Researcher Sign In</h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           Connect your wallet to access the funding platform
         </p>

@@ -21,7 +21,8 @@ export default function FunderDashboard() {
       funded: 75000,
       goal: 100000,
       category: 'Environmental Science',
-      status: 'In Progress'
+      status: 'In Progress',
+      plagiarism: 15
     },
     {
       id: 2,
@@ -31,7 +32,8 @@ export default function FunderDashboard() {
       funded: 120000,
       goal: 120000,
       category: 'Computer Science',
-      status: 'Funded'
+      status: 'Funded',
+      plagiarism: 50
     },
     {
       id: 3,
@@ -41,9 +43,11 @@ export default function FunderDashboard() {
       funded: 45000,
       goal: 200000,
       category: 'Healthcare',
-      status: 'Seeking Funding'
+      status: 'Seeking Funding',
+      plagiarism: 75
     }
   ])
+  
 
   // Mock data for funding stats
   const [fundingStats] = useState({
@@ -52,6 +56,13 @@ export default function FunderDashboard() {
     activeProjects: 3,
     completedProjects: 2
   })
+
+  const getPlagiarismColor = (percent: number) => {
+    if (percent <= 30) return 'bg-green-600' // Low plagiarism (Green)
+    if (percent <= 60) return 'bg-orange-500' // Moderate plagiarism (Orange)
+    return 'bg-red-600' // High plagiarism (Red)
+  }
+  
 
   useEffect(() => {
     // Check if user has connected wallet
@@ -77,6 +88,8 @@ export default function FunderDashboard() {
   // Handle disconnect wallet
   const disconnectWallet = () => {
     setAddress('')
+    // localStorage.removeItem('funderProfile') // Remove profile data from local storage
+
     router.push('/auth/funder-login')
   }
 
@@ -167,70 +180,84 @@ export default function FunderDashboard() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {fundedProjects.map((project) => (
-              <div key={project.id} className="bg-white rounded-lg shadow overflow-hidden">
-                <div className="p-6">
-                  <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-gray-900">{project.title}</h3>
-                    <span
-                      className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        project.status === 'Funded'
-                          ? 'bg-green-100 text-green-800'
-                          : project.status === 'In Progress'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}
-                    >
-                      {project.status}
-                    </span>
-                  </div>
+          {fundedProjects.map((project) => (
+  <div key={project.id} className="bg-white rounded-lg shadow overflow-hidden">
+    <div className="p-6">
+      <div className="flex justify-between items-start">
+        <h3 className="text-lg font-medium text-gray-900">{project.title}</h3>
+        <span
+          className={`px-2 py-1 text-xs font-medium rounded-full ${
+            project.status === 'Funded'
+              ? 'bg-green-100 text-green-800'
+              : project.status === 'In Progress'
+              ? 'bg-blue-100 text-blue-800'
+              : 'bg-yellow-100 text-yellow-800'
+          }`}
+        >
+          {project.status}
+        </span>
+      </div>
 
-                  <p className="mt-2 text-sm text-gray-500">
-                    {project.researcher} • {project.institution}
-                  </p>
+      <p className="mt-2 text-sm text-gray-500">
+        {project.researcher} • {project.institution}
+      </p>
 
-                  <p className="mt-1 text-xs text-gray-500">{project.category}</p>
+      {/* Project Category */}
+      <p className="mt-1 text-xs text-gray-500">{project.category}</p>
 
-                  <div className="mt-4">
-                    <div className="relative pt-1">
-                      <div className="flex mb-2 items-center justify-between">
-                        <div>
-                          <span className="text-xs font-semibold inline-block text-green-600">
-                            {Math.round((project.funded / project.goal) * 100)}% Funded
-                          </span>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-xs font-semibold inline-block text-green-600">
-                            ${project.funded.toLocaleString()} / ${project.goal.toLocaleString()}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-green-200">
-                        <div
-                          style={{ width: `${Math.round((project.funded / project.goal) * 100)}%` }}
-                          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-600"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
+      {/* Plagiarism Progress Bar */}
+      <div className="mt-3">
+        <p className="text-xs text-gray-500">Plagiarism: {project.plagiarism}%</p>
+        <div className="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+          <div
+            className={`h-2.5 rounded-full ${getPlagiarismColor(project.plagiarism)}`}
+            style={{ width: `${project.plagiarism}%` }}
+          ></div>
+        </div>
+      </div>
 
-                  <div className="mt-5 flex space-x-2">
-                    <Link
-                      href={`/funder/projects/${project.id}`}
-                      className="flex-1 text-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                    >
-                      View Details
-                    </Link>
+      {/* Funding Progress Bar */}
+      <div className="mt-4">
+        <div className="relative pt-1">
+          <div className="flex mb-2 items-center justify-between">
+            <div>
+              <span className="text-xs font-semibold inline-block text-green-600">
+                {Math.round((project.funded / project.goal) * 100)}% Funded
+              </span>
+            </div>
+            <div className="text-right">
+              <span className="text-xs font-semibold inline-block text-green-600">
+                ${project.funded.toLocaleString()} / ${project.goal.toLocaleString()}
+              </span>
+            </div>
+          </div>
+          <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-green-200">
+            <div
+              style={{ width: `${Math.round((project.funded / project.goal) * 100)}%` }}
+              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-600"
+            ></div>
+          </div>
+        </div>
+      </div>
 
-                    {project.status !== 'Funded' && (
-                      <button className="flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                        Add Funding
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+      <div className="mt-5 flex space-x-2">
+        <Link
+          href={`/funder/projects/${project.id}`}
+          className="flex-1 text-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        >
+          View Details
+        </Link>
+
+        {project.status !== 'Funded' && (
+          <button className="flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+            Add Funding
+          </button>
+        )}
+      </div>
+    </div>
+  </div>
+))}
+
           </div>
         </div>
 
