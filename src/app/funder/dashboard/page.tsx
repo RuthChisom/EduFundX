@@ -9,10 +9,23 @@ export default function FunderDashboard() {
   const [address, setAddress] = useState('')
   const [loading, setLoading] = useState(true)
   // const [error, setError] = useState('');
+  const [selectedProject, setSelectedProject] = useState<{
+    id: number;
+    title: string;
+    researcher: string;
+    institution: string;
+    funded: number;
+    goal: number;
+    category: string;
+    status: string;
+    plagiarism: number;
+  } | null>(null);
+  
+  const [fundingAmount, setFundingAmount] = useState('')
   const router = useRouter()
 
   // Mock data for funded projects
-  const [fundedProjects] = useState([
+  const [fundedProjects, setFundedProjects] = useState([
     {
       id: 1,
       title: 'Climate Change Mitigation Strategies',
@@ -47,6 +60,12 @@ export default function FunderDashboard() {
       plagiarism: 75
     }
   ])
+  
+  const getFundingColor = (percent: number) => {
+    if (percent <= 30) return 'bg-red-500'  // Low funding (Red)
+    if (percent <= 70) return 'bg-orange-500'  // Medium funding (Orange)
+    return 'bg-green-600'  // High funding (Green)
+  }
   
 
   // Mock data for funding stats
@@ -84,6 +103,44 @@ export default function FunderDashboard() {
 
     checkConnection()
   }, [])
+
+  const openFundingModal = (project : any) => {
+    console.log('Opening modal for:', project); // Debugging
+    setSelectedProject(project)
+    setFundingAmount('')
+  }
+
+  const closeFundingModal = () => {
+    setSelectedProject(null)
+  }
+
+  const handleFundingSubmit = () => {
+    const amount = parseFloat(fundingAmount);
+    
+    if (!selectedProject || isNaN(amount) || amount <= 0) {
+      alert('Please enter a valid amount');
+      return;
+    }
+  
+    // Ensure the funding doesn't exceed the goal
+    const maxFunding = selectedProject.goal - selectedProject.funded;
+    if (amount > maxFunding) {
+      alert(`You can't fund more than $${maxFunding}`);
+      return;
+    }
+  
+    // Update the fundedProjects state
+    setFundedProjects((prevProjects) =>
+      prevProjects.map((project) =>
+        project.id === selectedProject.id
+          ? { ...project, funded: project.funded + amount }
+          : project
+      )
+    );
+    alert(`You have supported ${selectedProject?.title} with  $${amount}! Thank you!!`);
+    closeFundingModal();
+  };
+  
 
   // Handle disconnect wallet
   const disconnectWallet = () => {
@@ -180,85 +237,130 @@ export default function FunderDashboard() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {fundedProjects.map((project) => (
-  <div key={project.id} className="bg-white rounded-lg shadow overflow-hidden">
-    <div className="p-6">
-      <div className="flex justify-between items-start">
-        <h3 className="text-lg font-medium text-gray-900">{project.title}</h3>
-        <span
-          className={`px-2 py-1 text-xs font-medium rounded-full ${
-            project.status === 'Funded'
-              ? 'bg-green-100 text-green-800'
-              : project.status === 'In Progress'
-              ? 'bg-blue-100 text-blue-800'
-              : 'bg-yellow-100 text-yellow-800'
-          }`}
-        >
-          {project.status}
-        </span>
-      </div>
+            {fundedProjects.map((project) => (
+              <div key={project.id} className="bg-white rounded-lg shadow overflow-hidden">
+                <div className="p-6">
+                  <div className="flex justify-between items-start">
+                    <h3 className="text-lg font-medium text-gray-900">{project.title}</h3>
+                    <span
+                      className={`px-2 py-1 text-xs font-medium rounded-full ${
+                        project.status === 'Funded'
+                          ? 'bg-green-100 text-green-800'
+                          : project.status === 'In Progress'
+                          ? 'bg-blue-100 text-blue-800'
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}
+                    >
+                      {project.status}
+                    </span>
+                  </div>
 
-      <p className="mt-2 text-sm text-gray-500">
-        {project.researcher} • {project.institution}
-      </p>
+                  <p className="mt-2 text-sm text-gray-500">
+                    {project.researcher} • {project.institution}
+                  </p>
 
-      {/* Project Category */}
-      <p className="mt-1 text-xs text-gray-500">{project.category}</p>
+                  {/* Project Category */}
+                  <p className="mt-1 text-xs text-gray-500">{project.category}</p>
 
-      {/* Plagiarism Progress Bar */}
-      <div className="mt-3">
-        <p className="text-xs text-gray-500">Plagiarism: {project.plagiarism}%</p>
-        <div className="w-full bg-gray-200 rounded-full h-2.5 mt-1">
-          <div
-            className={`h-2.5 rounded-full ${getPlagiarismColor(project.plagiarism)}`}
-            style={{ width: `${project.plagiarism}%` }}
-          ></div>
-        </div>
-      </div>
+                  {/* Plagiarism Progress Bar */}
+                  <div className="mt-3">
+                    <p className="text-xs text-gray-500">Plagiarism: {project.plagiarism}%</p>
+                    <div className="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                      <div
+                        className={`h-2.5 rounded-full ${getPlagiarismColor(project.plagiarism)}`}
+                        style={{ width: `${project.plagiarism}%` }}
+                      ></div>
+                    </div>
+                  </div>
 
-      {/* Funding Progress Bar */}
-      <div className="mt-4">
-        <div className="relative pt-1">
-          <div className="flex mb-2 items-center justify-between">
-            <div>
-              <span className="text-xs font-semibold inline-block text-green-600">
-                {Math.round((project.funded / project.goal) * 100)}% Funded
-              </span>
+                  {/* Funding Progress Bar */}
+                  <div className="mt-4">
+                    <div className="relative pt-1">
+                      <div className="flex mb-2 items-center justify-between">
+                        <div>
+                          <span className="text-xs font-semibold inline-block text-green-600">
+                            {Math.round((project.funded / project.goal) * 100)}% Funded
+                          </span>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-xs font-semibold inline-block text-green-600">
+                            ${project.funded.toLocaleString()} / ${project.goal.toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                        <div
+                          style={{ width: `${Math.round((project.funded / project.goal) * 100)}%` }}
+                          className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${getFundingColor(
+                            Math.round((project.funded / project.goal) * 100)
+                          )}`}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 flex space-x-2">
+                    <Link
+                      href={`/funder/projects/${project.id}`}
+                      className="flex-1 text-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    >
+                      View Details
+                    </Link>
+
+                    {project.status !== 'Funded' && (
+                      <button 
+                        onClick={() => openFundingModal(project)}
+                        className="flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                      >
+                        Add Funding
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+
+          </div>
+          {/* Funding Modal */}
+      {selectedProject && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h3 className="text-lg font-bold mb-4">Fund {selectedProject.title}</h3>
+            <p className="text-sm text-gray-600">Needs: ${selectedProject.goal - selectedProject.funded}</p>
+            <input
+  type="number"
+  value={fundingAmount}
+  onChange={(e) => {
+    const value = Number(e.target.value);
+    const maxValue = selectedProject ? selectedProject.goal - selectedProject.funded : 0;
+
+    if (value > maxValue) {
+      setFundingAmount(maxValue.toString()); // Restrict input
+    } else {
+      setFundingAmount(e.target.value);
+    }
+  }}
+  className="w-full p-2 border rounded mt-2"
+  placeholder="Enter amount"
+/>
+
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={closeFundingModal}
+                className="mr-2 px-4 py-2 bg-gray-300 rounded"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleFundingSubmit}
+                className="px-4 py-2 bg-green-600 text-white rounded"
+              >
+                Fund
+              </button>
             </div>
-            <div className="text-right">
-              <span className="text-xs font-semibold inline-block text-green-600">
-                ${project.funded.toLocaleString()} / ${project.goal.toLocaleString()}
-              </span>
-            </div>
-          </div>
-          <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-green-200">
-            <div
-              style={{ width: `${Math.round((project.funded / project.goal) * 100)}%` }}
-              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-600"
-            ></div>
           </div>
         </div>
-      </div>
-
-      <div className="mt-5 flex space-x-2">
-        <Link
-          href={`/funder/projects/${project.id}`}
-          className="flex-1 text-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-        >
-          View Details
-        </Link>
-
-        {project.status !== 'Funded' && (
-          <button className="flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-            Add Funding
-          </button>
-        )}
-      </div>
-    </div>
-  </div>
-))}
-
-          </div>
+      )}
         </div>
 
         {/* Recommended Projects Section */}
